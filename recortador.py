@@ -9,6 +9,8 @@ if __name__ == '__main__':
 
     if ti - 30720 < 0:
         ti = 0
+    else:
+        ti -= 30720
     
     signals, signal_headers, header = highlevel.read_edf(arch)
 
@@ -17,6 +19,8 @@ if __name__ == '__main__':
 
     if tf + 30720 > N:
         tf = N
+    else:
+        tf += 30720
 
     print(tf-ti )
 
