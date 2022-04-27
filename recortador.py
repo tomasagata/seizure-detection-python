@@ -22,6 +22,4 @@ if __name__ == '__main__':
     else:
         tf += 30720
 
-    print(tf-ti )
-
     highlevel.write_edf_quick(arch + ".ceizure.edf", signals[:numOfSignals,ti:tf], 256)
