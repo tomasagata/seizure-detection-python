@@ -70,3 +70,5 @@ if __name__ == '__main__':
         lastFileWritten = arch
 
         highlevel.write_edf(writeFileName, signals[:numOfSignals, ti:tf], new_signal_headers, header, False, 1, 1)
+
+        print("successfully cut and written " + seizureFile["fileName"] + " at: \""+ writeFileName + "\"")
