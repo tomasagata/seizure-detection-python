@@ -14,7 +14,20 @@ def normalize(signal):
 
     rms = np.sqrt( sumOfSquares / N )
 
-    for i in range(len(signal)):
+    for i in range(N):
+        if signal[i] > 0:
+            t = (signal[i] - rms)
+            if t > 0:
+                np.append(return_array, t)
+            else:
+                np.append(return_array, 0)
+        elif signal[i] < 0:
+            t = (signal[i] + rms)
+            if t < 0:
+                np.append(return_array, t)
+            else: 
+                np.append(return_array, 0)
+
         return_array = np.append(return_array, signal[i] - rms)
 
     return return_array
