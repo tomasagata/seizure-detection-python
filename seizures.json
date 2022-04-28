@@ -114,6 +114,18 @@
         "endSeizureTime": 6557
     },
     {
+        "subdirectory": "chb04/",
+        "fileName": "chb04_28.edf",
+        "startSeizureTime": 1679,
+        "endSeizureTime": 1781
+    },
+    {
+        "subdirectory": "chb04/",
+        "fileName": "chb04_28.edf",
+        "startSeizureTime": 3782,
+        "endSeizureTime": 3898
+    },
+    {
         "subdirectory": "chb05/",
         "fileName": "chb05_06.edf",
         "startSeizureTime": 417,
