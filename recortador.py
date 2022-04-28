@@ -49,8 +49,8 @@ if __name__ == '__main__':
         new_signal_headers = []
         for i in range( len(signal_headers)):
             new_signal_headers.append(signal_headers[i])
-            new_signal_headers[i]["physical_max"] = 2400.0
-            new_signal_headers[i]["physical_min"] = -2400.0 # modulo 3 veces mas grande que el original!
+            new_signal_headers[i]["physical_max"] = 3000.0
+            new_signal_headers[i]["physical_min"] = -3000.0 # modulo 3 veces mas grande que el original!
 
         numOfSignals = len(signals)
         N = len(signals[0])
