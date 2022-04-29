@@ -1,0 +1,566 @@
+[
+    {
+        "subdirectory": "chb01/",
+        "fileName": "chb01_03.edf.seizureFile.edf",
+        "startSeizureTime": 2996,
+        "endSeizureTime": 3036
+    },
+    {
+        "subdirectory": "chb01/",
+        "fileName": "chb01_04.edf.seizureFile.edf",
+        "startSeizureTime": 1467,
+        "endSeizureTime": 1494
+    },
+    {
+        "subdirectory": "chb01/",
+        "fileName": "chb01_15.edf.seizureFile.edf",
+        "startSeizureTime": 1732,
+        "endSeizureTime": 1772
+    },
+    {
+        "subdirectory": "chb01/",
+        "fileName": "chb01_16.edf.seizureFile.edf",
+        "startSeizureTime": 1015,
+        "endSeizureTime": 1066
+    },
+    {
+        "subdirectory": "chb01/",
+        "fileName": "chb01_18.edf.seizureFile.edf",
+        "startSeizureTime": 1720,
+        "endSeizureTime": 1810
+    },
+    {
+        "subdirectory": "chb01/",
+        "fileName": "chb01_21.edf.seizureFile.edf",
+        "startSeizureTime": 327,
+        "endSeizureTime": 420
+    },
+    {
+        "subdirectory": "chb01/",
+        "fileName": "chb01_26.edf.seizureFile.edf",
+        "startSeizureTime": 1862,
+        "endSeizureTime": 1963
+    },
+    {
+        "subdirectory": "chb02/",
+        "fileName": "chb02_16.edf.seizureFile.edf",
+        "startSeizureTime": 130,
+        "endSeizureTime": 212
+    },
+    {
+        "subdirectory": "chb02/",
+        "fileName": "chb02_16+.edf.seizureFile.edf",
+        "startSeizureTime": 2972,
+        "endSeizureTime": 3053
+    },
+    {
+        "subdirectory": "chb02/",
+        "fileName": "chb02_19.edf.seizureFile.edf",
+        "startSeizureTime": 3369,
+        "endSeizureTime": 3378
+    },
+    {
+        "subdirectory": "chb03/",
+        "fileName": "chb03_01.edf.seizureFile.edf",
+        "startSeizureTime": 362,
+        "endSeizureTime": 414
+    },
+    {
+        "subdirectory": "chb03/",
+        "fileName": "chb03_02.edf.seizureFile.edf",
+        "startSeizureTime": 731,
+        "endSeizureTime": 796
+    },
+    {
+        "subdirectory": "chb03/",
+        "fileName": "chb03_03.edf.seizureFile.edf",
+        "startSeizureTime": 432,
+        "endSeizureTime": 501
+    },
+    {
+        "subdirectory": "chb03/",
+        "fileName": "chb03_04.edf.seizureFile.edf",
+        "startSeizureTime": 2162,
+        "endSeizureTime": 2214
+    },
+    {
+        "subdirectory": "chb03/",
+        "fileName": "chb03_34.edf.seizureFile.edf",
+        "startSeizureTime": 1982,
+        "endSeizureTime": 2029
+    },
+    {
+        "subdirectory": "chb03/",
+        "fileName": "chb03_35.edf.seizureFile.edf",
+        "startSeizureTime": 2592,
+        "endSeizureTime": 2656
+    },
+    {
+        "subdirectory": "chb03/",
+        "fileName": "chb03_36.edf.seizureFile.edf",
+        "startSeizureTime": 1725,
+        "endSeizureTime": 1778
+    },
+    {
+        "subdirectory": "chb04/",
+        "fileName": "chb04_05.edf.seizureFile.edf",
+        "startSeizureTime": 7804,
+        "endSeizureTime": 7853
+    },
+    {
+        "subdirectory": "chb04/",
+        "fileName": "chb04_08.edf.seizureFile.edf",
+        "startSeizureTime": 6446,
+        "endSeizureTime": 6557
+    },
+    {
+        "subdirectory": "chb04/",
+        "fileName": "chb04_28.edf.seizureFile.edf",
+        "startSeizureTime": 1679,
+        "endSeizureTime": 1781
+    },
+    {
+        "subdirectory": "chb04/",
+        "fileName": "chb04_28.edf.seizureFile.edf",
+        "startSeizureTime": 3782,
+        "endSeizureTime": 3898
+    },
+    {
+        "subdirectory": "chb05/",
+        "fileName": "chb05_06.edf.seizureFile.edf",
+        "startSeizureTime": 417,
+        "endSeizureTime": 532
+    },
+    {
+        "subdirectory": "chb05/",
+        "fileName": "chb05_13.edf.seizureFile.edf",
+        "startSeizureTime": 1082,
+        "endSeizureTime": 1196
+    },
+    {
+        "subdirectory": "chb05/",
+        "fileName": "chb05_16.edf.seizureFile.edf",
+        "startSeizureTime": 2317,
+        "endSeizureTime": 2413
+    },
+    {
+        "subdirectory": "chb05/",
+        "fileName": "chb05_17.edf.seizureFile.edf",
+        "startSeizureTime": 2451,
+        "endSeizureTime": 2571
+    },
+    {
+        "subdirectory": "chb05/",
+        "fileName": "chb05_22.edf.seizureFile.edf",
+        "startSeizureTime": 2348,
+        "endSeizureTime": 2465
+    },
+    {
+        "subdirectory": "chb06/",
+        "fileName": "chb06_04.edf.seizureFile.edf",
+        "startSeizureTime": 327,
+        "endSeizureTime": 347
+    },
+    {
+        "subdirectory": "chb06/",
+        "fileName": "chb06_04.edf.seizureFile.edf",
+        "startSeizureTime": 6211,
+        "endSeizureTime": 6231
+    },
+    {
+        "subdirectory": "chb06/",
+        "fileName": "chb06_09.edf.seizureFile.edf",
+        "startSeizureTime": 12500,
+        "endSeizureTime": 12516
+    },
+    {
+        "subdirectory": "chb06/",
+        "fileName": "chb06_10.edf.seizureFile.edf",
+        "startSeizureTime": 10833,
+        "endSeizureTime": 10845
+    },
+    {
+        "subdirectory": "chb06/",
+        "fileName": "chb06_13.edf.seizureFile.edf",
+        "startSeizureTime": 506,
+        "endSeizureTime": 519
+    },
+    {
+        "subdirectory": "chb06/",
+        "fileName": "chb06_18.edf.seizureFile.edf",
+        "startSeizureTime": 7799,
+        "endSeizureTime": 7811
+    },
+    {
+        "subdirectory": "chb06/",
+        "fileName": "chb06_24.edf.seizureFile.edf",
+        "startSeizureTime": 9387,
+        "endSeizureTime": 9403
+    },
+    {
+        "subdirectory": "chb07/",
+        "fileName": "chb07_12.edf.seizureFile.edf",
+        "startSeizureTime": 4920,
+        "endSeizureTime": 5006
+    },
+    {
+        "subdirectory": "chb07/",
+        "fileName": "chb07_13.edf.seizureFile.edf",
+        "startSeizureTime": 3285,
+        "endSeizureTime": 3381
+    },
+    {
+        "subdirectory": "chb07/",
+        "fileName": "chb07_19.edf.seizureFile.edf",
+        "startSeizureTime": 13688,
+        "endSeizureTime": 13831
+    },
+    {
+        "subdirectory": "chb08/",
+        "fileName": "chb08_02.edf.seizureFile.edf",
+        "startSeizureTime": 2670,
+        "endSeizureTime": 2841
+    },
+    {
+        "subdirectory": "chb08/",
+        "fileName": "chb08_05.edf.seizureFile.edf",
+        "startSeizureTime": 2856,
+        "endSeizureTime": 3046
+    },
+    {
+        "subdirectory": "chb08/",
+        "fileName": "chb08_11.edf.seizureFile.edf",
+        "startSeizureTime": 2988,
+        "endSeizureTime": 3122
+    },
+    {
+        "subdirectory": "chb08/",
+        "fileName": "chb08_13.edf.seizureFile.edf",
+        "startSeizureTime": 2417,
+        "endSeizureTime": 2577
+    },
+    {
+        "subdirectory": "chb08/",
+        "fileName": "chb08_21.edf.seizureFile.edf",
+        "startSeizureTime": 2083,
+        "endSeizureTime": 2347
+    },
+    {
+        "subdirectory": "chb09/",
+        "fileName": "chb09_06.edf.seizureFile.edf",
+        "startSeizureTime": 12231,
+        "endSeizureTime": 12295
+    },
+    {
+        "subdirectory": "chb09/",
+        "fileName": "chb09_08.edf.seizureFile.edf",
+        "startSeizureTime": 2951,
+        "endSeizureTime": 3030
+    },
+    {
+        "subdirectory": "chb09/",
+        "fileName": "chb09_08.edf.seizureFile.edf",
+        "startSeizureTime": 9196,
+        "endSeizureTime": 9267
+    },
+    {
+        "subdirectory": "chb10/",
+        "fileName": "chb10_12.edf.seizureFile.edf",
+        "startSeizureTime": 6313,
+        "endSeizureTime": 6348
+    },
+    {
+        "subdirectory": "chb10/",
+        "fileName": "chb10_20.edf.seizureFile.edf",
+        "startSeizureTime": 6888,
+        "endSeizureTime": 6958
+    },
+    {
+        "subdirectory": "chb10/",
+        "fileName": "chb10_27.edf.seizureFile.edf",
+        "startSeizureTime": 2382,
+        "endSeizureTime": 2447
+    },
+    {
+        "subdirectory": "chb10/",
+        "fileName": "chb10_30.edf.seizureFile.edf",
+        "startSeizureTime": 3021,
+        "endSeizureTime": 3079
+    },
+    {
+        "subdirectory": "chb10/",
+        "fileName": "chb10_31.edf.seizureFile.edf",
+        "startSeizureTime": 3801,
+        "endSeizureTime": 3877
+    },
+    {
+        "subdirectory": "chb10/",
+        "fileName": "chb10_38.edf.seizureFile.edf",
+        "startSeizureTime": 4618,
+        "endSeizureTime": 4707
+    },
+    {
+        "subdirectory": "chb10/",
+        "fileName": "chb10_89.edf.seizureFile.edf",
+        "startSeizureTime": 1383,
+        "endSeizureTime": 1437
+    },
+    {
+        "subdirectory": "chb11/",
+        "fileName": "chb11_82.edf.seizureFile.edf",
+        "startSeizureTime": 298,
+        "endSeizureTime": 320
+    },
+    {
+        "subdirectory": "chb11/",
+        "fileName": "chb11_92.edf.seizureFile.edf",
+        "startSeizureTime": 2695,
+        "endSeizureTime": 2727
+    },
+    {
+        "subdirectory": "chb11/",
+        "fileName": "chb11_99.edf.seizureFile.edf",
+        "startSeizureTime": 1454,
+        "endSeizureTime": 2206
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_06.edf.seizureFile.edf",
+        "startSeizureTime": 1665,
+        "endSeizureTime": 1726
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_06.edf.seizureFile.edf",
+        "startSeizureTime": 3415,
+        "endSeizureTime": 3447
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_08.edf.seizureFile.edf",
+        "startSeizureTime": 1426,
+        "endSeizureTime": 1439
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_08.edf.seizureFile.edf",
+        "startSeizureTime": 1591,
+        "endSeizureTime": 1614
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_08.edf.seizureFile.edf",
+        "startSeizureTime": 1957,
+        "endSeizureTime": 1977
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_08.edf.seizureFile.edf",
+        "startSeizureTime": 2798,
+        "endSeizureTime": 2824
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_09.edf.seizureFile.edf",
+        "startSeizureTime": 3082,
+        "endSeizureTime": 3114
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_09.edf.seizureFile.edf",
+        "startSeizureTime": 3503,
+        "endSeizureTime": 3535
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_10.edf.seizureFile.edf",
+        "startSeizureTime": 593,
+        "endSeizureTime": 625
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_10.edf.seizureFile.edf",
+        "startSeizureTime": 811,
+        "endSeizureTime": 856
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_11.edf.seizureFile.edf",
+        "startSeizureTime": 1085,
+        "endSeizureTime": 1122
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_23.edf.seizureFile.edf",
+        "startSeizureTime": 253,
+        "endSeizureTime": 333
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_23.edf.seizureFile.edf",
+        "startSeizureTime": 425,
+        "endSeizureTime": 522
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_23.edf.seizureFile.edf",
+        "startSeizureTime": 630,
+        "endSeizureTime": 670
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_27.edf.seizureFile.edf",
+        "startSeizureTime": 916,
+        "endSeizureTime": 951
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_27.edf.seizureFile.edf",
+        "startSeizureTime": 1097,
+        "endSeizureTime": 1124
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_27.edf.seizureFile.edf",
+        "startSeizureTime": 1728,
+        "endSeizureTime": 1753
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_27.edf.seizureFile.edf",
+        "startSeizureTime": 1921,
+        "endSeizureTime": 1963
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_27.edf.seizureFile.edf",
+        "startSeizureTime": 2388,
+        "endSeizureTime": 2440
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_27.edf.seizureFile.edf",
+        "startSeizureTime": 2621,
+        "endSeizureTime": 2669
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_28.edf.seizureFile.edf",
+        "startSeizureTime": 181,
+        "endSeizureTime": 215
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_29.edf.seizureFile.edf",
+        "startSeizureTime": 107,
+        "endSeizureTime": 146
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_29.edf.seizureFile.edf",
+        "startSeizureTime": 554,
+        "endSeizureTime": 592
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_29.edf.seizureFile.edf",
+        "startSeizureTime": 1163,
+        "endSeizureTime": 1199
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_29.edf.seizureFile.edf",
+        "startSeizureTime": 1401,
+        "endSeizureTime": 1447
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_29.edf.seizureFile.edf",
+        "startSeizureTime": 1884,
+        "endSeizureTime": 1921
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_29.edf.seizureFile.edf",
+        "startSeizureTime": 3557,
+        "endSeizureTime": 3584
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_33.edf.seizureFile.edf",
+        "startSeizureTime": 2185,
+        "endSeizureTime": 2206
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_33.edf.seizureFile.edf",
+        "startSeizureTime": 2427,
+        "endSeizureTime": 2450
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_36.edf.seizureFile.edf",
+        "startSeizureTime": 653,
+        "endSeizureTime": 680
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_38.edf.seizureFile.edf",
+        "startSeizureTime": 1548,
+        "endSeizureTime": 1573
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_38.edf.seizureFile.edf",
+        "startSeizureTime": 2798,
+        "endSeizureTime": 2821
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_38.edf.seizureFile.edf",
+        "startSeizureTime": 2966,
+        "endSeizureTime": 3009
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_38.edf.seizureFile.edf",
+        "startSeizureTime": 3146,
+        "endSeizureTime": 3201
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_38.edf.seizureFile.edf",
+        "startSeizureTime": 3364,
+        "endSeizureTime": 3410
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_42.edf.seizureFile.edf",
+        "startSeizureTime": 699,
+        "endSeizureTime": 750
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_42.edf.seizureFile.edf",
+        "startSeizureTime": 945,
+        "endSeizureTime": 973
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_42.edf.seizureFile.edf",
+        "startSeizureTime": 1170,
+        "endSeizureTime": 1199
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_42.edf.seizureFile.edf",
+        "startSeizureTime": 1676,
+        "endSeizureTime": 1701
+    },
+    {
+        "subdirectory": "chb12/",
+        "fileName": "chb12_42.edf.seizureFile.edf",
+        "startSeizureTime": 2213,
+        "endSeizureTime": 2236
+    }
+]
