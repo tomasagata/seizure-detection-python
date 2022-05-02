@@ -1,3 +1,4 @@
+from math import ceil
 import pyedflib.highlevel as highlevel
 import matplotlib.pyplot as plt
 import numpy as np
@@ -29,16 +30,21 @@ def searchExistingFilesAccordingTo(seizureFile):
 
     return return_arr
 
-def normalize(signal):
-    return_array = np.array([])
-
+def rms(signal):
     N = len(signal)
 
     sumOfSquares = 0
     for sample in signal:
         sumOfSquares += sample ** 2
 
-    rms = np.sqrt( sumOfSquares / N )
+    return np.sqrt( sumOfSquares / N )
+
+def normalize(signal):
+    return_array = np.array([])
+
+    N = len(signal)
+
+    rms = rms(signal)
 
     for i in range(N):
         if signal[i] > 0:
@@ -56,6 +62,34 @@ def normalize(signal):
         # return_array = np.append(return_array, signal[i] - rms)
 
     return return_array
+
+def indexOf(element, arr, excluded = []):
+
+    for i in range(len(arr)):
+        if arr[i] == element and i not in excluded:
+            return i
+
+    raise Exception("Number not in arr")
+
+def getHighestPointsOnSignal(signal, signalPercentage = -1):
+    highestPoints = []
+
+    if signalPercentage == -1:
+        rms = rms(signal)
+        sorteredSignalDescending = -np.sort(-signal)
+
+        i=0 
+        while sorteredSignalDescending[i] > rms:
+            highestPoints.append(indexOf(sorteredSignalDescending[i], signal, highestPoints))
+            i+=1
+
+    elif signalPercentage >= 0 and signalPercentage <= 1:
+        sorteredSignalDescending = -np.sort(-signal)
+
+        for i in range(ceil(len(signal) * signalPercentage)):
+            highestPoints.append(indexOf(sorteredSignalDescending[i], signal, highestPoints))
+        
+    return highestPoints
 
 
 if __name__ == '__main__':
