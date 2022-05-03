@@ -21,7 +21,7 @@ def readSignals():
     # return f.readSignal(i), signal_labels[i]
     for i in range(0, n):
         axs[i].set_title(signal_labels[i], x=-0.075, y=-0.1)
-        axs[i].plot(f.readSignal(i), lstColors[i % len(lstColors)])
+        axs[i].plot(denoiseFourier(f.readSignal(i)), lstColors[i % len(lstColors)])
     plt.show()
 
 readSignals()
