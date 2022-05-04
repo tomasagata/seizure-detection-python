@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def denoiseFourier(signal, perc=0.25):
-    perc = 0.25
+    signal -= np.mean(signal)
     fhat = np.fft.fft(signal)
     psd = fhat * np.conj(fhat)
     th = perc * max(abs(psd))
@@ -18,10 +18,9 @@ def readSignals():
     n=f.signals_in_file
     figure, axs = plt.subplots(n)
     signal_labels = f.getSignalLabels()
-    # return f.readSignal(i), signal_labels[i]
     for i in range(0, n):
         axs[i].set_title(signal_labels[i], x=-0.075, y=-0.1)
-        axs[i].plot(f.readSignal(i), lstColors[i % len(lstColors)])
+        axs[i].plot(denoiseFourier(f.readSignal(i), 0.1), lstColors[i % len(lstColors)])
     plt.show()
 
 readSignals()
