@@ -30,7 +30,7 @@ def searchExistingFilesAccordingTo(seizureFile):
 
     return return_arr
 
-def rms(signal):
+def rmsF(signal):
     N = len(signal)
 
     sumOfSquares = 0
@@ -44,7 +44,7 @@ def normalize(signal):
 
     N = len(signal)
 
-    rms = rms(signal)
+    rms = rmsF(signal)
 
     for i in range(N):
         if signal[i] > 0:
@@ -75,7 +75,7 @@ def getHighestPointsOnSignal(signal, signalPercentage = -1):
     highestPoints = []
 
     if signalPercentage == -1:
-        rms = rms(signal)
+        rms = rmsF(signal)
         sorteredSignalDescending = -np.sort(-signal)
 
         i=0 
