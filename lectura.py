@@ -80,7 +80,6 @@ def showSignalByClasses():
         crisisClassSignal.append(amplitudeDomain[i])
     for i in range(len(beforeClass) + len(crisisClass), len(beforeClass) + len(crisisClass) + len(afterClass)):
         afterClassSignal.append(amplitudeDomain[i])
-    
     # print(len(beforeClassSignal))
     # print(len(crisisClassSignal))
     # print(len(afterClassSignal))
@@ -139,5 +138,41 @@ def showSignalsByClasses():
     axis[channelAmount-1,1].set(xlabel = 'During Crisis')
     axis[channelAmount-1,2].set(xlabel = 'After Crisis')
     plt.show()
+    calculateMean(beforeClassSignal, crisisClassSignal, afterClassSignal)
+    calculateVariance(beforeClassSignal, crisisClassSignal, afterClassSignal)
+    calculateStandardDeviation(beforeClassSignal, crisisClassSignal, afterClassSignal)
+
+def calculateMean(beforeClassSignal, crisisClassSignal, afterClassSignal):
+    outputFile = open('output.txt', 'w')
+    outputFile.write('Mean\n')
+    outputFile.write('Before - Crisis - After\n')
+    for i in range (0, len(beforeClassSignal)):
+        outputFile.write(str(round(np.mean(beforeClassSignal[i]),2)) + ' - ')
+        outputFile.write(str(round(np.mean(crisisClassSignal[i]),2)) + ' - ')
+        outputFile.write(str(round(np.mean(afterClassSignal[i]),2)))
+        outputFile.write('\n')
+    outputFile.close()
+
+def calculateVariance(beforeClassSignal, crisisClassSignal, afterClassSignal):
+    outputFile = open('output.txt', 'a')
+    outputFile.write('\n\nVariance\n')
+    outputFile.write('Before - Crisis - After\n')
+    for i in range (0, len(beforeClassSignal)):
+        outputFile.write(str(round(np.var(beforeClassSignal[i]),2)) + ' - ')
+        outputFile.write(str(round(np.var(crisisClassSignal[i]),2)) + ' - ')
+        outputFile.write(str(round(np.var(afterClassSignal[i]),2)))
+        outputFile.write('\n')
+    outputFile.close()
+
+def calculateStandardDeviation(beforeClassSignal, crisisClassSignal, afterClassSignal):
+    outputFile = open('output.txt', 'a')
+    outputFile.write('\n\nStandard Deviation\n')
+    outputFile.write('Before - Crisis - After\n')
+    for i in range (0, len(beforeClassSignal)):
+        outputFile.write(str(round(np.std(beforeClassSignal[i]),2)) + ' - ')
+        outputFile.write(str(round(np.std(crisisClassSignal[i]),2)) + ' - ')
+        outputFile.write(str(round(np.std(afterClassSignal[i]),2)))
+        outputFile.write('\n')
+    outputFile.close()
 
 showSignalsByClasses()
