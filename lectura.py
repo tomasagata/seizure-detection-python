@@ -5,6 +5,8 @@ from xml import dom
 import pyedflib
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy import signal
+from scipy.fft import fftshift
 
 def denoiseFourier(signal, perc=0.25):
     perc = 0.25
@@ -96,6 +98,40 @@ def showSignalByClasses():
 
 # showSignalByClasses()
 
+def plot_specgram(before, during, after, title='', x_label='', y_label='', fig_size=None):
+    #Para que se aprecie bien, no voy a poner que imprima todos los canales de una.
+    #Si queres imprimir todos los canales:
+    #var = len(before)
+    #Caso contrario muestro los primeros 2 usando var = 2
+    var = 2
+    fs = 3500
+    for i in range (var):
+        fig = plt.figure()
+        if fig_size != None:
+            fig.set_size_inches(fig_size[0], fig_size[1])
+        fig.add_subplot(131)
+        plt.title('Before')
+        plt.xlabel(x_label)
+        plt.ylabel(y_label)
+        #plt.specgram(before[i], Fs=35000)
+        f, t, Zxx = signal.stft(before[i], fs, nperseg=50, noverlap=10)
+        plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax = 64, shading='gouraud')
+        plt.colorbar()
+        fig.add_subplot(132)
+        plt.title('Crisis')
+        #plt.specgram(during[i], Fs=35000)
+        f, t, Zxx = signal.stft(during[i], fs, nperseg=50, noverlap=10)
+        plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax = 64,shading='gouraud')
+        plt.colorbar()
+        fig.add_subplot(133)
+        plt.title('After')
+        #plt.specgram(after[i], Fs=35000)
+        f, t, Zxx = signal.stft(after[i], fs, nperseg=50, noverlap=10)
+        plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax = 64, shading='gouraud')
+        plt.colorbar().set_label('Intensidad')
+        plt.show()
+
+
 def showSignalsByClasses():
     lstColors = ['red', 'green', 'blue', 'cyan', 'magenta', 'yellow', 'orange']
     file = pyedflib.EdfReader("./chb01/chb01_03.edf.seizureFile.edf")
@@ -141,6 +177,11 @@ def showSignalsByClasses():
     calculateMean(beforeClassSignal, crisisClassSignal, afterClassSignal)
     calculateVariance(beforeClassSignal, crisisClassSignal, afterClassSignal)
     calculateStandardDeviation(beforeClassSignal, crisisClassSignal, afterClassSignal)
+    
+
+    plot_specgram(beforeClassSignal, crisisClassSignal,afterClassSignal, title='Espectrograma', x_label='Tiempo', y_label='Frecuencia')
+    exit()
+
 
 def calculateMean(beforeClassSignal, crisisClassSignal, afterClassSignal):
     outputFile = open('output.txt', 'w')
