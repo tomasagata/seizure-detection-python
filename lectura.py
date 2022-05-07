@@ -29,7 +29,11 @@ def readSignals():
         axs[i].plot(denoiseFourier(f.readSignal(i)), lstColors[i % len(lstColors)])
     plt.show()
 
-# readSignals()
+def calculateSignalToNoiseRatio(signal, axis=0, ddof=0):
+    signalNpArray = np.asanyarray(signal)
+    meanOfSignal = signalNpArray.mean(axis)
+    standardDeviation = signalNpArray.std(axis=axis, ddof=ddof)
+    return np.where(standardDeviation == 0, 0, meanOfSignal/standardDeviation)
 
 def convertDomainToTime(signal):
     testRate = 256
