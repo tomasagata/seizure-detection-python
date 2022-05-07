@@ -106,7 +106,7 @@ def plot_specgram(before, during, after, title='', x_label='', y_label='', fig_s
     #var = len(before)
     #Caso contrario muestro los primeros 2 usando var = 2
     var = 2
-    fs = 3500
+    fs = 250
     for i in range (var):
         fig = plt.figure()
         if fig_size != None:
@@ -181,7 +181,7 @@ def showSignalsByClasses():
     calculateStandardDeviation(beforeClassSignal, crisisClassSignal, afterClassSignal)
     
 
-    plot_specgram(beforeClassSignal, crisisClassSignal,afterClassSignal, title='Espectrograma', x_label='Tiempo', y_label='Frecuencia')
+    plot_specgram(beforeClassSignal, crisisClassSignal,afterClassSignal, title='Espectrograma', x_label='Tiempo [S]', y_label='Frecuencia [Hz]')
     exit()
 
 
