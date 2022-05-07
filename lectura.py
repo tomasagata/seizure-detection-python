@@ -1,7 +1,3 @@
-import tp
-from shutil import ReadError
-from time import time
-from xml import dom
 import pyedflib
 import numpy as np
 import matplotlib.pyplot as plt
