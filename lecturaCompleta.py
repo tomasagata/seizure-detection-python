@@ -1,123 +1,128 @@
 import pyedflib
-from numpy import mean, var, std, cov
+import numpy as np
+from scipy import signal as sig
 import matplotlib.pyplot as plt
 from math import floor, ceil
 
-# def denoiseFourier(signal, perc=0.25):
-#     perc = 0.25
-#     fhat = np.fft.fft(signal)
-#     psd = fhat * np.conj(fhat)
-#     th = perc * np.mean(abs(psd[round(len(psd)/2)]))
-#     indices = psd > th
-#     psd = psd * indices
-#     fhat = indices * fhat
-#     return np.fft.ifft(fhat)
+def denoiseFourier(signal, perc=0.25):
+    perc = 0.25
+    fhat = np.fft.fft(signal)
+    psd = fhat * np.conj(fhat)
+    th = perc * np.mean(abs(psd[round(len(psd)/2)]))
+    indices = psd > th
+    psd = psd * indices
+    fhat = indices * fhat
+    return np.fft.ifft(fhat)
 
-# def readSignals():
-#     lstColors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
-#     f = pyedflib.EdfReader("./chb01/chb01_03.edf.seizureFile.edf")
-#     n=f.signals_in_file
-#     denoiseFourier(f.readSignal(0))
-#     figure, axs = plt.subplots(n)
-#     signal_labels = f.getSignalLabels()
-#     # return f.readSignal(i), signal_labels[i]
-#     for i in range(0, n):
-#         axs[i].set_title(signal_labels[i], x=-0.075, y=-0.1)
-#         axs[i].plot(f.readSignal(i), lstColors[i % len(lstColors)])
-#     plt.show()
-
-# # readSignals()
-
-# def convertDomainToTime(signal):
-#     testRate = 256
-#     signalSize = len(signal)
-#     signalDuration = signalSize/testRate
-#     period = 1/testRate
-
-#     timeDomain = [] ; i = 0
-#     while i < signalDuration:
-#         timeDomain.append(i)
-#         i+=period
-    
-#     return timeDomain
-
-# def calculateSegmentMeanWithWindow(signal, window):
-#     windowSize = len(window)
-#     signalSize = len(signal[0])
-#     numberOfSegments = floor(signalSize/windowSize)
-
-#     segmentMeans = []
-#     for channel in signal:
-#         for segment in range(numberOfSegments-1):
-#             segmentMeans.append(round( np.mean(channel[ segment*windowSize : (segment + 1)*windowSize ]), 2))
-
-#     return segmentMeans
-
-# def calculateSegmentVarianceWithWindow(signal, window):
-#     windowSize = len(window)
-#     signalSize = len(signal[0])
-#     numberOfSegments = floor(signalSize/windowSize)
-
-#     segmentVariance = []
-#     for channel in signal:
-#         for segment in range(numberOfSegments-1):
-#             segmentVariance.append(round( np.var(channel[ segment*windowSize : (segment + 1)*windowSize ]), 2))
-
-#     return segmentVariance
-
-# def calculateSegmentStandardDeviationWithWindow(signal, window):
-#     windowSize = len(window)
-#     signalSize = len(signal[0])
-#     numberOfSegments = floor(signalSize/windowSize)
-
-#     segmentVariance = []
-#     for channel in signal:
-#         for segment in range(numberOfSegments-1):
-#             segmentVariance.append(round( np.var(channel[ segment*windowSize : (segment + 1)*windowSize ]), 2))
-
-#     return segmentVariance
-
-def getNumberOfSegmentsForSamplesWithWindowAndOverlap(samples, window, overlap):
-    N = len(samples)
-    W = len(window)
+def getNumberOfSegmentsForSamplesWithWindowAndOverlap(N, W, overlap):
     return round(1 + ((N-1) - (N%W) - W + 1)/round(W * (1-overlap)))
 
 def calculateFunctionOfSegmentWithWindow(signal, functionToExecute, window, overlap = 0):
     windowSize = len(window)
-    signalSize = len(signal[0])-1
     distanceBetweenSegments = round(windowSize*(1-overlap))
-    numberOfSegments = round(1 + (signalSize - ((signalSize+1)%windowSize) - windowSize + 1)/round(windowSize * (1-overlap)))
+    numberOfSegments = getNumberOfSegmentsForSamplesWithWindowAndOverlap(len(signal), len(window), overlap)
 
     results = []
-    for channel in signal:
-        for segment in range(numberOfSegments):
-            results.append(round( functionToExecute(channel[ floor(segment*distanceBetweenSegments) : floor(segment*distanceBetweenSegments)+windowSize ]), 2))
+
+    for segment in range(numberOfSegments):
+        displacement = floor(segment*distanceBetweenSegments)
+        results.append(functionToExecute(signal[ displacement : displacement+windowSize ]*window).round(2))
     return results
 
-# def absoluteVariationAverage(samples):
-#     sampleSize = len(samples)
+def rectangularWindow(size):
+    return ([1]*size)
 
-#     return sum(abs(samples))/sampleSize
+def prom_var_abs(signal):
+    n = len(signal)
+    return sum(abs(signal))/n
 
-# def calculateSelfCovariance(samples, window):
-#     sampleSize = len(samples)
-#     windowSize = len(window)
-#     numberOfSegments = floor(sampleSize/windowSize)
-
+# def splitAndCalculateFunctionPerSegments(data, functionToExecute, endOfSegment1, endOfSegment2):
 #     results = []
-#     for segment in range(numberOfSegments):
-#         results.append(round( cov(samples[segment*windowSize : (segment + 1)*windowSize], samples[(segment+1)*windowSize : (segment+2)*windowSize]) ), 2)
+#     results.append(functionToExecute(data[0:endOfSegment1]))
+#     results.append(functionToExecute(data[endOfSegment1:endOfSegment2]))
+#     results.append(functionToExecute(data[endOfSegment2:len(data)]))
+#     return results
 
+def calculateFunctionWithADisplacedVersionOfItself(data, functionToExecute, window, overlap):
+    windowSize = len(window)
+    distanceBetweenSegments = round(windowSize*(1-overlap))
+    numberOfSegments = getNumberOfSegmentsForSamplesWithWindowAndOverlap(len(data), len(window), overlap)
 
+    results = []
+    for segment in range(numberOfSegments-1):
+        displacement1 = floor(segment*distanceBetweenSegments)
+        displacement2 = floor((segment+1)*distanceBetweenSegments)
+        results.append(functionToExecute(data[displacement1 : displacement1+windowSize]*window, data[displacement2 : displacement2+windowSize]*window).round(2))
+    return results
 
+def periodogram(signal, window, overlap):
+    windowSize = len(window)
+    distanceBetweenSegments = round(windowSize*(1-overlap))
+    numberOfSegments = getNumberOfSegmentsForSamplesWithWindowAndOverlap(len(signal), len(window), overlap)
 
-example_signal = [1,2,3,4,5,6,7,8,9]
-example_window = [1,1,1,1]
-example_overlap = 0.5
+    results = []
 
+    for segment in range(numberOfSegments):
+        displacement = floor(segment*distanceBetweenSegments)
+        f, r = sig.periodogram(signal[ displacement : displacement+windowSize ]*window, 256, return_onesided=False)
+        results.append(r.round(2))
+    return results
 
-print(calculateFunctionOfSegmentWithWindow([example_signal], mean, example_window, example_overlap))
-print(getNumberOfSegmentsForSamplesWithWindowAndOverlap(example_signal, example_window, example_overlap))
+def readCalculateAndWriteStatisticalDataOfSignalToFile(inputSignalFilePath, outputFilePath):
+    f = pyedflib.EdfReader(inputSignalFilePath)
+    n=f.signals_in_file
 
+    statisticalDataPerChannel = []
+    for i in range(n):
+        channelData = {}
+        denoised_signal = denoiseFourier(f.readSignal(i))
+        channelData["varianza_rectangular_sin_overlap"] = calculateFunctionOfSegmentWithWindow(denoised_signal, np.var, rectangularWindow(256), 0)
+        channelData["varianza_rectangular_con_overlap"] = calculateFunctionOfSegmentWithWindow(denoised_signal, np.var, rectangularWindow(256), 0.5)
+        channelData["varianza_hamming_sin_overlap"] = calculateFunctionOfSegmentWithWindow(denoised_signal, np.var, sig.windows.hamming(256), 0)
+        channelData["varianza_hamming_con_overlap"] = calculateFunctionOfSegmentWithWindow(denoised_signal, np.var, sig.windows.hamming(256), 0.5)
+        channelData["varianza_bh_sin_overlap"] = calculateFunctionOfSegmentWithWindow(denoised_signal, np.var, sig.windows.blackmanharris(256), 0)
+        channelData["varianza_bh_con_overlap"] = calculateFunctionOfSegmentWithWindow(denoised_signal, np.var, sig.windows.blackmanharris(256), 0.5)
+        channelData["desviacion_estandar_rectangular_sin_overlap"] = calculateFunctionOfSegmentWithWindow(denoised_signal, np.std, rectangularWindow(256), 0)
+        channelData["desviacion_estandar_rectangular_con_overlap"] = calculateFunctionOfSegmentWithWindow(denoised_signal, np.std, rectangularWindow(256), 0.5)
+        channelData["desviacion_estandar_hamming_sin_overlap"] = calculateFunctionOfSegmentWithWindow(denoised_signal, np.std, sig.windows.hamming(256), 0)
+        channelData["desviacion_estandar_hamming_con_overlap"] = calculateFunctionOfSegmentWithWindow(denoised_signal, np.std, sig.windows.hamming(256), 0.5)
+        channelData["desviacion_estandar_bh_sin_overlap"] = calculateFunctionOfSegmentWithWindow(denoised_signal, np.std, sig.windows.blackmanharris(256), 0)
+        channelData["desviacion_estandar_bh_con_overlap"] = calculateFunctionOfSegmentWithWindow(denoised_signal, np.std, sig.windows.blackmanharris(256), 0.5)
+        channelData["prom_var_abs_rectangular_sin_overlap"] = calculateFunctionOfSegmentWithWindow(denoised_signal, prom_var_abs, rectangularWindow(256), 0)
+        channelData["prom_var_abs_rectangular_con_overlap"] = calculateFunctionOfSegmentWithWindow(denoised_signal, prom_var_abs, rectangularWindow(256), 0.5)
+        channelData["prom_var_abs_hamming_sin_overlap"] = calculateFunctionOfSegmentWithWindow(denoised_signal, prom_var_abs, sig.windows.hamming(256), 0)
+        channelData["prom_var_abs_hamming_con_overlap"] = calculateFunctionOfSegmentWithWindow(denoised_signal, prom_var_abs, sig.windows.hamming(256), 0.5)
+        channelData["prom_var_abs_bh_sin_overlap"] = calculateFunctionOfSegmentWithWindow(denoised_signal, prom_var_abs, sig.windows.blackmanharris(256), 0)
+        channelData["prom_var_abs_bh_con_overlap"] = calculateFunctionOfSegmentWithWindow(denoised_signal, prom_var_abs, sig.windows.blackmanharris(256), 0.5)
+        channelData["covarianza_rectangular_sin_overlap"] = calculateFunctionWithADisplacedVersionOfItself(denoised_signal, np.cov, rectangularWindow(256), 0)
+        channelData["covarianza_rectangular_con_overlap"] = calculateFunctionWithADisplacedVersionOfItself(denoised_signal, np.cov, rectangularWindow(256), 0.5)
+        channelData["covarianza_hamming_sin_overlap"] = calculateFunctionWithADisplacedVersionOfItself(denoised_signal, np.cov, sig.windows.hamming(256), 0)
+        channelData["covarianza_hamming_con_overlap"] = calculateFunctionWithADisplacedVersionOfItself(denoised_signal, np.cov, sig.windows.hamming(256), 0.5)
+        channelData["covarianza_bh_sin_overlap"] = calculateFunctionWithADisplacedVersionOfItself(denoised_signal, np.cov, sig.windows.blackmanharris(256), 0)
+        channelData["covarianza_bh_con_overlap"] = calculateFunctionWithADisplacedVersionOfItself(denoised_signal, np.cov, sig.windows.blackmanharris(256), 0.5)
+        channelData["pearson_corr_squared_rectangular_sin_overlap"] = calculateFunctionWithADisplacedVersionOfItself(denoised_signal, np.corrcoef, rectangularWindow(256), 0)
+        channelData["pearson_corr_squared_rectangular_con_overlap"] = calculateFunctionWithADisplacedVersionOfItself(denoised_signal, np.corrcoef, rectangularWindow(256), 0.5)
+        channelData["pearson_corr_squared_hamming_sin_overlap"] = calculateFunctionWithADisplacedVersionOfItself(denoised_signal, np.corrcoef, sig.windows.hamming(256), 0)
+        channelData["pearson_corr_squared_hamming_con_overlap"] = calculateFunctionWithADisplacedVersionOfItself(denoised_signal, np.corrcoef, sig.windows.hamming(256), 0.5)
+        channelData["pearson_corr_squared_bh_sin_overlap"] = calculateFunctionWithADisplacedVersionOfItself(denoised_signal, np.corrcoef, sig.windows.blackmanharris(256), 0)
+        channelData["pearson_corr_squared_bh_con_overlap"] = calculateFunctionWithADisplacedVersionOfItself(denoised_signal, np.corrcoef, sig.windows.blackmanharris(256), 0.5)
+        channelData["correlacion_rectangular_sin_overlap"] = calculateFunctionWithADisplacedVersionOfItself(denoised_signal, np.correlate, rectangularWindow(256), 0)
+        channelData["correlacion_rectangular_con_overlap"] = calculateFunctionWithADisplacedVersionOfItself(denoised_signal, np.correlate, rectangularWindow(256), 0.5)
+        channelData["correlacion_hamming_sin_overlap"] = calculateFunctionWithADisplacedVersionOfItself(denoised_signal, np.correlate, sig.windows.hamming(256), 0)
+        channelData["correlacion_hamming_con_overlap"] = calculateFunctionWithADisplacedVersionOfItself(denoised_signal, np.correlate, sig.windows.hamming(256), 0.5)
+        channelData["correlacion_bh_sin_overlap"] = calculateFunctionWithADisplacedVersionOfItself(denoised_signal, np.correlate, sig.windows.blackmanharris(256), 0)
+        channelData["correlacion_bh_con_overlap"] = calculateFunctionWithADisplacedVersionOfItself(denoised_signal, np.correlate, sig.windows.blackmanharris(256), 0.5)
+        channelData["periodograma_rectangular_sin_overlap"] = periodogram(denoised_signal, rectangularWindow(256), 0)
+        channelData["periodograma_rectangular_con_overlap"] = periodogram(denoised_signal, rectangularWindow(256), 0.5)
+        channelData["periodograma_hamming_sin_overlap"] = periodogram(denoised_signal, sig.windows.hamming(256), 0)
+        channelData["periodograma_hamming_con_overlap"] = periodogram(denoised_signal, sig.windows.hamming(256), 0.5)
+        channelData["periodograma_bh_sin_overlap"] = periodogram(denoised_signal, sig.windows.blackmanharris(256), 0)
+        channelData["periodograma_bh_con_overlap"] = periodogram(denoised_signal, sig.windows.blackmanharris(256), 0.5)
+        statisticalDataPerChannel.append(channelData)
+    
+    #with open(outputFilePath, "f+") as fout:
+        
 
+    f.close()
 
+readCalculateAndWriteStatisticalDataOfSignalToFile("chb01/chb01_03.edf.seizureFile.edf", "")
