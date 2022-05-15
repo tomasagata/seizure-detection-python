@@ -37,22 +37,19 @@ def probDistributions(beforeClassSignal, crisisClassSignal,afterClassSignal):
         print("Entire Block: mu: "+ str(mu) +"sigma: "+ str(sigma)+ "\n" + "Before crisis: mu: "+ str(mu1) +"sigma: "+str(sigma1)+ "\n" + "During crisis: mu: "+ str(mu2) +"sigma: "+str(sigma2)+ "\n" + "After crisis: mu: "+ str(mu3) +"sigma: "+str(sigma3)+ "\n")
         
         #Para hacer el scatter plot, descomentar esto:
-        ''''
-        plt.scatter([mu,mu1,mu2,mu3],[sigma,sigma1,sigma2,sigma3])
-        plt.title("Plot Scatter")
-        plt.xlabel("mu")
-        plt.ylabel("sigma")
-        plt.show()
-        '''
+        # plt.scatter([mu,mu1,mu2,mu3],[sigma,sigma1,sigma2,sigma3])
+        # plt.title("Plot Scatter")
+        # plt.xlabel("mu")
+        # plt.ylabel("sigma")
+        # plt.show()
 
         
         exit()
         
 def denoiseFourier(signal, perc=0.25):
-    perc = 0.25
     fhat = np.fft.fft(signal)
     psd = fhat * np.conj(fhat)
-    th = perc * np.mean(abs(psd[len(psd)]))
+    th = perc * np.mean(abs(psd[round(len(psd)/2)]))
     indices = psd > th
     psd = psd * indices
     fhat = indices * fhat
@@ -135,7 +132,7 @@ def splitDomainIntoClasses(signal, beforeCrisisDuration = 120, crisisDuration = 
         afterCrisisClass.append(signal[i])
         i+=1
     
-    return beforeCrisisClass, crisisClass, afterCrisisClass
+    return denoiseFourier(beforeCrisisClass), denoiseFourier(crisisClass), denoiseFourier(afterCrisisClass)
 
 def showSignalByClasses():
     lstColors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
