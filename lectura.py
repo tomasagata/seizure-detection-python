@@ -7,12 +7,52 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import signal
 from scipy.fft import fftshift
+from fitter import Fitter, get_common_distributions, get_distributions
+import pandas as pd
+from scipy.stats import cauchy, norm
 
+def probDistributions(beforeClassSignal, crisisClassSignal,afterClassSignal):
+    seizureFilesArr = tp.searchExistingFilesAccordingTo("cutSeizures.json")
+
+    for seizureFile in seizureFilesArr:
+        signals, signal_headers, header = tp.highlevel.read_edf(seizureFile["subdirectory"] + seizureFile["fileName"])
+        data=signals[3]
+        df = pd.DataFrame(data, columns =['Datos'])
+        #sns.histplot(data=df, x="Datos", common_norm=True, kde=True)
+        f = Fitter(df,
+           distributions=['gamma',
+                          'logistic',
+                          "cauchy",
+                          "norm",
+                          "rayleigh"]) #Algunas como beta y exponweib son quedan simplemente pésimo
+        f.fit()
+        f.summary()
+        plt.show()
+        
+        mu, sigma = cauchy.fit(data)
+        
+        mu1, sigma1 = cauchy.fit(beforeClassSignal[3])
+        mu2, sigma2 = cauchy.fit(crisisClassSignal[3])
+        mu3, sigma3 = cauchy.fit(afterClassSignal[3])
+        print("Entire Block: mu: "+ str(mu) +"sigma: "+ str(sigma)+ "\n" + "Before crisis: mu: "+ str(mu1) +"sigma: "+str(sigma1)+ "\n" + "During crisis: mu: "+ str(mu2) +"sigma: "+str(sigma2)+ "\n" + "After crisis: mu: "+ str(mu3) +"sigma: "+str(sigma3)+ "\n")
+        
+        #Para hacer el scatter plot, descomentar esto:
+        ''''
+        plt.scatter([mu,mu1,mu2,mu3],[sigma,sigma1,sigma2,sigma3])
+        plt.title("Plot Scatter")
+        plt.xlabel("mu")
+        plt.ylabel("sigma")
+        plt.show()
+        '''
+
+        
+        exit()
+        
 def denoiseFourier(signal, perc=0.25):
     perc = 0.25
     fhat = np.fft.fft(signal)
     psd = fhat * np.conj(fhat)
-    th = perc * np.mean(abs(psd[len(psd)]))
+    th = perc * np.mean(abs(psd[round(len(psd)/2)]))
     indices = psd > th
     psd = psd * indices
     fhat = indices * fhat
@@ -22,19 +62,48 @@ def readSignals():
     lstColors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
     f = pyedflib.EdfReader("./chb01/chb01_03.edf.seizureFile.edf")
     n=f.signals_in_file
+    denoiseFourier(f.readSignal(0))
     figure, axs = plt.subplots(n)
     signal_labels = f.getSignalLabels()
+    # return f.readSignal(i), signal_labels[i]
     for i in range(0, n):
         axs[i].set_title(signal_labels[i], x=-0.075, y=-0.1)
-        axs[i].plot(denoiseFourier(f.readSignal(i)), lstColors[i % len(lstColors)])
+        axs[i].plot(f.readSignal(i), lstColors[i % len(lstColors)])
     plt.show()
 
-def calculateSignalToNoiseRatio(signal, axis=0, ddof=0):
-    signalNpArray = np.asanyarray(signal)
-    meanOfSignal = signalNpArray.mean(axis)
-    standardDeviation = signalNpArray.std(axis=axis, ddof=ddof)
-    return np.where(standardDeviation == 0, 0, meanOfSignal/standardDeviation)
+# readSignals()
 
+def plot_specgram(before, during, after, title='', x_label='', y_label='', fig_size=None):
+    #Para que se aprecie bien, no voy a poner que imprima todos los canales de una.
+    #Si queres imprimir todos los canales:
+    #var = len(before)
+    #Caso contrario muestro los primeros 2 usando var = 2
+    var = 2
+    fs = 3500
+    for i in range (var):
+        fig = plt.figure()
+        if fig_size != None:
+            fig.set_size_inches(fig_size[0], fig_size[1])
+        fig.add_subplot(131)
+        plt.title('Before')
+        plt.xlabel(x_label)
+        plt.ylabel(y_label)
+        f, t, Zxx = signal.stft(before[i], fs, nperseg=50, noverlap=10)
+        plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax = 64, shading='gouraud')
+        plt.colorbar()
+        fig.add_subplot(132)
+        plt.title('Crisis')
+        f, t, Zxx = signal.stft(during[i], fs, nperseg=50, noverlap=10)
+        plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax = 64,shading='gouraud')
+        plt.colorbar()
+        fig.add_subplot(133)
+        plt.title('After')
+        f, t, Zxx = signal.stft(after[i], fs, nperseg=50, noverlap=10)
+        plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax = 64, shading='gouraud')
+        plt.colorbar().set_label('Intensidad')
+        plt.show()
+        
+        
 def convertDomainToTime(signal):
     testRate = 256
     signalSize = len(signal)
@@ -100,40 +169,6 @@ def showSignalByClasses():
 
 # showSignalByClasses()
 
-def plot_specgram(before, during, after, title='', x_label='', y_label='', fig_size=None):
-    #Para que se aprecie bien, no voy a poner que imprima todos los canales de una.
-    #Si queres imprimir todos los canales:
-    #var = len(before)
-    #Caso contrario muestro los primeros 2 usando var = 2
-    var = 2
-    fs = 250
-    for i in range (var):
-        fig = plt.figure()
-        if fig_size != None:
-            fig.set_size_inches(fig_size[0], fig_size[1])
-        fig.add_subplot(131)
-        plt.title('Before')
-        plt.xlabel(x_label)
-        plt.ylabel(y_label)
-        #plt.specgram(before[i], Fs=35000)
-        f, t, Zxx = signal.stft(before[i], fs, nperseg=50, noverlap=10)
-        plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax = 64, shading='gouraud')
-        plt.colorbar()
-        fig.add_subplot(132)
-        plt.title('Crisis')
-        #plt.specgram(during[i], Fs=35000)
-        f, t, Zxx = signal.stft(during[i], fs, nperseg=50, noverlap=10)
-        plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax = 64,shading='gouraud')
-        plt.colorbar()
-        fig.add_subplot(133)
-        plt.title('After')
-        #plt.specgram(after[i], Fs=35000)
-        f, t, Zxx = signal.stft(after[i], fs, nperseg=50, noverlap=10)
-        plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax = 64, shading='gouraud')
-        plt.colorbar().set_label('Intensidad')
-        plt.show()
-
-
 def showSignalsByClasses():
     lstColors = ['red', 'green', 'blue', 'cyan', 'magenta', 'yellow', 'orange']
     file = pyedflib.EdfReader("./chb01/chb01_03.edf.seizureFile.edf")
@@ -180,10 +215,10 @@ def showSignalsByClasses():
     calculateVariance(beforeClassSignal, crisisClassSignal, afterClassSignal)
     calculateStandardDeviation(beforeClassSignal, crisisClassSignal, afterClassSignal)
     
-
-    plot_specgram(beforeClassSignal, crisisClassSignal,afterClassSignal, title='Espectrograma', x_label='Tiempo [S]', y_label='Frecuencia [Hz]')
+    plot_specgram(beforeClassSignal, crisisClassSignal,afterClassSignal, title='Espectrograma', x_label='Tiempo', y_label='Frecuencia')
+    #Punto 3 de bloques enteros:
+    probDistributions(beforeClassSignal, crisisClassSignal,afterClassSignal)
     exit()
-
 
 def calculateMean(beforeClassSignal, crisisClassSignal, afterClassSignal):
     outputFile = open('output.txt', 'w')
