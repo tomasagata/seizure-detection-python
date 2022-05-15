@@ -52,7 +52,7 @@ def denoiseFourier(signal, perc=0.25):
     perc = 0.25
     fhat = np.fft.fft(signal)
     psd = fhat * np.conj(fhat)
-    th = perc * np.mean(abs(psd[round(len(psd)/2)]))
+    th = perc * np.mean(abs(psd[len(psd)]))
     indices = psd > th
     psd = psd * indices
     fhat = indices * fhat
@@ -68,10 +68,14 @@ def readSignals():
     # return f.readSignal(i), signal_labels[i]
     for i in range(0, n):
         axs[i].set_title(signal_labels[i], x=-0.075, y=-0.1)
-        axs[i].plot(f.readSignal(i), lstColors[i % len(lstColors)])
+        axs[i].plot(denoiseFourier(f.readSignal(i)), lstColors[i % len(lstColors)])
     plt.show()
-
-# readSignals()
+    
+def calculateSignalToNoiseRatio(signal, axis=0, ddof=0):
+    signalNpArray = np.asanyarray(signal)
+    meanOfSignal = signalNpArray.mean(axis)
+    standardDeviation = signalNpArray.std(axis=axis, ddof=ddof)
+    return np.where(standardDeviation == 0, 0, meanOfSignal/standardDeviation)
 
 def plot_specgram(before, during, after, title='', x_label='', y_label='', fig_size=None):
     #Para que se aprecie bien, no voy a poner que imprima todos los canales de una.
@@ -79,7 +83,7 @@ def plot_specgram(before, during, after, title='', x_label='', y_label='', fig_s
     #var = len(before)
     #Caso contrario muestro los primeros 2 usando var = 2
     var = 2
-    fs = 3500
+    fs = 250
     for i in range (var):
         fig = plt.figure()
         if fig_size != None:
@@ -215,7 +219,7 @@ def showSignalsByClasses():
     calculateVariance(beforeClassSignal, crisisClassSignal, afterClassSignal)
     calculateStandardDeviation(beforeClassSignal, crisisClassSignal, afterClassSignal)
     
-    plot_specgram(beforeClassSignal, crisisClassSignal,afterClassSignal, title='Espectrograma', x_label='Tiempo', y_label='Frecuencia')
+    plot_specgram(beforeClassSignal, crisisClassSignal,afterClassSignal, title='Espectrograma', x_label='Tiempo [S]', y_label='Frecuencia [Hz]')
     #Punto 3 de bloques enteros:
     probDistributions(beforeClassSignal, crisisClassSignal,afterClassSignal)
     exit()
