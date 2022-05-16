@@ -24,28 +24,145 @@ def probDistributions(beforeClassSignal, crisisClassSignal,afterClassSignal):
                           'logistic',
                           "cauchy",
                           "norm",
-                          "rayleigh"]) #Algunas como beta y exponweib son quedan simplemente pésimo
+                          "rayleigh"])
         f.fit()
         f.summary()
         plt.show()
         
-        mu, sigma = cauchy.fit(data)
         
         mu1, sigma1 = cauchy.fit(beforeClassSignal[3])
         mu2, sigma2 = cauchy.fit(crisisClassSignal[3])
         mu3, sigma3 = cauchy.fit(afterClassSignal[3])
-        print("Entire Block: mu: "+ str(mu) +"sigma: "+ str(sigma)+ "\n" + "Before crisis: mu: "+ str(mu1) +"sigma: "+str(sigma1)+ "\n" + "During crisis: mu: "+ str(mu2) +"sigma: "+str(sigma2)+ "\n" + "After crisis: mu: "+ str(mu3) +"sigma: "+str(sigma3)+ "\n")
+        print("Before crisis: mu: "+ str(mu1) +"sigma: "+str(sigma1)+ "\n" + "During crisis: mu: "+ str(mu2) +"sigma: "+str(sigma2)+ "\n" + "After crisis: mu: "+ str(mu3) +"sigma: "+str(sigma3)+ "\n")
+        '''
+        Para hacer el scatter plot de solo estos 3 puntos, descomentar esto:
+        plt.scatter([mu,mu1,mu2,mu3],[sigma,sigma1,sigma2,sigma3])
+        plt.title("Plot Scatter")
+        plt.xlabel("mu")
+        plt.ylabel("sigma")
+        plt.show()
+        '''
+         
+        #Para hacer box plot de los 3 bloques, descomentar esto:
+        boxPlotThreeTypes(beforeClassSignal,crisisClassSignal,afterClassSignal)
         
+        #Para hacer un box plot de los 3 tipos, descomentar acá.
+        #boxPlotOfMusAndSigmas(beforeClassSignal,crisisClassSignal,afterClassSignal, seizureFilesArr)
+        
+        #Para hacer el Scatter Plot de los mu and sigma de todas las muestras con crisis según los bloques, descomentar acá.
+        scatterDistOfAllMuAndSigma(beforeClassSignal, crisisClassSignal,afterClassSignal)
+        
+        exit()
+        
+        
+def boxPlotOfMusAndSigmas(beforeClassSignal,crisisClassSignal,afterClassSignal, seizureFilesArr):
+    listMuCrisis=[]
+    listSigmaCrisis=[]
+    listMuAfter=[]
+    listSigmaAfter=[]
+    listMuBefore=[]
+    listSigmaBefore=[]
+    
+    for seizureFile in seizureFilesArr:
+        signals, signal_headers, header = tp.highlevel.read_edf(seizureFile["subdirectory"] + seizureFile["fileName"])
+        for i in range(len(signals)-1):
+            data=signals[i]
+            mu1, sigma1 = cauchy.fit(beforeClassSignal[i])
+            listMuBefore.append(mu1)
+            listSigmaBefore.append(sigma1)
+            
+            mu2, sigma2 = cauchy.fit(crisisClassSignal[i])
+            listMuCrisis.append(mu2)
+            listSigmaCrisis.append(sigma2)
+            mu3, sigma3 = cauchy.fit(afterClassSignal[i])
+            listMuAfter.append(mu3)
+            listSigmaAfter.append(sigma3)
+            
+    fig = plt.figure()
+    fig.add_subplot(131)
+    plt.title('Before')
+    plt.xlabel("Tiempo [S]")
+    plt.ylabel("Amplitud [μV]")
+    plt.boxplot(listMuBefore)
+    fig.add_subplot(132)
+    plt.title('Crisis')
+    plt.boxplot(listMuCrisis)
+    fig.add_subplot(133)
+    plt.title('After')
+    plt.boxplot(listMuAfter)
+    plt.show()
+        
+    fig = plt.figure()
+    fig.add_subplot(131)
+    plt.title('Before')
+    plt.xlabel("Tiempo [S]")
+    plt.ylabel("Amplitud [μV]")
+    plt.boxplot(listMuAfter)
+    fig.add_subplot(132)
+    plt.title('Crisis')
+    plt.boxplot(listMuCrisis)
+    fig.add_subplot(133)
+    plt.title('After')
+    plt.boxplot(listMuAfter)
+    plt.show()
+    
+        
+def boxPlotThreeTypes(beforeClassSignal,crisisClassSignal,afterClassSignal):
+        fig = plt.figure()
+        fig.add_subplot(131)
+        plt.title('Before')
+        plt.xlabel("Tiempo [S]")
+        plt.ylabel("Amplitud [μV]")
+        plt.boxplot(beforeClassSignal)
+        fig.add_subplot(132)
+        plt.title('Crisis')
+        plt.boxplot(crisisClassSignal)
+        fig.add_subplot(133)
+        plt.title('After')
+        plt.boxplot(afterClassSignal)
+        plt.show()
+        
+def scatterDistOfAllMuAndSigma(beforeClassSignal, crisisClassSignal,afterClassSignal):
+    seizureFilesArr = tp.searchExistingFilesAccordingTo("cutSeizures.json")
+    listMu=[]
+    listSigma=[]
+
+    for seizureFile in seizureFilesArr:
+        signals, signal_headers, header = tp.highlevel.read_edf(seizureFile["subdirectory"] + seizureFile["fileName"])
+        for i in range(len(signals)):
+            data=signals[i]
+            mu, sigma = cauchy.fit(data)
+        
+
+            mu1, sigma1 = cauchy.fit(beforeClassSignal[i])
+            listMu.append(mu1)
+            listSigma.append(sigma1)
+            
+            mu2, sigma2 = cauchy.fit(crisisClassSignal[i])
+            listMu.append(mu2)
+            listSigma.append(sigma2)
+            mu3, sigma3 = cauchy.fit(afterClassSignal[i])
+            listMu.append(mu3)
+            listSigma.append(sigma3)
+            #print("Entire Block: mu: "+ str(mu) +" sigma: "+ str(sigma)+ "\n" + "Before crisis: mu: "+ str(mu1) +" sigma: "+str(sigma1)+ "\n" + "During crisis: mu: "+ str(mu2) +" sigma: "+str(sigma2)+ "\n" + "After crisis: mu: "+ str(mu3) +"sigma: "+str(sigma3)+ "\n")
+    
         #Para hacer el scatter plot, descomentar esto:
-        # plt.scatter([mu,mu1,mu2,mu3],[sigma,sigma1,sigma2,sigma3])
-        # plt.title("Plot Scatter")
-        # plt.xlabel("mu")
-        # plt.ylabel("sigma")
-        # plt.show()
+
+        plt.scatter(listMu,listSigma)
+        plt.title("Plot Scatter")
+        plt.xlabel("mu")
+        plt.ylabel("sigma")
+        plt.show()
+        exit()
+        
+        #Para hacer box plot, descomentar esto
+        plt.boxplot(data)
+        plt.show()
 
         
         exit()
         
+
 def denoiseFourier(signal, perc=0.25):
     fhat = np.fft.fft(signal)
     psd = fhat * np.conj(fhat)
@@ -74,6 +191,7 @@ def calculateSignalToNoiseRatio(signal, axis=0, ddof=0):
     standardDeviation = signalNpArray.std(axis=axis, ddof=ddof)
     return np.where(standardDeviation == 0, 0, meanOfSignal/standardDeviation)
 
+        
 def plot_specgram(before, during, after, title='', x_label='', y_label='', fig_size=None):
     #Para que se aprecie bien, no voy a poner que imprima todos los canales de una.
     #Si queres imprimir todos los canales:
@@ -81,7 +199,9 @@ def plot_specgram(before, during, after, title='', x_label='', y_label='', fig_s
     #Caso contrario muestro los primeros 2 usando var = 2
     var = 2
     fs = 250
+    
     for i in range (var):
+        
         fig = plt.figure()
         if fig_size != None:
             fig.set_size_inches(fig_size[0], fig_size[1])
@@ -89,21 +209,20 @@ def plot_specgram(before, during, after, title='', x_label='', y_label='', fig_s
         plt.title('Before')
         plt.xlabel(x_label)
         plt.ylabel(y_label)
-        f, t, Zxx = signal.stft(before[i], fs, nperseg=50, noverlap=10)
+        f, t, Zxx = signal.stft(before[i], fs, window='flattop', nperseg=50, noverlap=10)
         plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax = 64, shading='gouraud')
         plt.colorbar()
         fig.add_subplot(132)
         plt.title('Crisis')
-        f, t, Zxx = signal.stft(during[i], fs, nperseg=50, noverlap=10)
+        f, t, Zxx = signal.stft(during[i], fs, window='flattop',nperseg=50, noverlap=10)
         plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax = 64,shading='gouraud')
         plt.colorbar()
         fig.add_subplot(133)
         plt.title('After')
-        f, t, Zxx = signal.stft(after[i], fs, nperseg=50, noverlap=10)
+        f, t, Zxx = signal.stft(after[i], fs, window='flattop',nperseg=50, noverlap=10)
         plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax = 64, shading='gouraud')
         plt.colorbar().set_label('Intensidad')
         plt.show()
-        
         
 def convertDomainToTime(signal):
     testRate = 256
