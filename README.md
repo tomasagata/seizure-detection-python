@@ -1,3 +1,3 @@
-#Seizure Detection Algorithm
+# Seizure Detection Algorithm
 
-Naive implementation of a seizure detection algorithm using Fourier Transforms written in Python
+Implementation of seizure detection algorithm using Fourier Transforms and written in Python
